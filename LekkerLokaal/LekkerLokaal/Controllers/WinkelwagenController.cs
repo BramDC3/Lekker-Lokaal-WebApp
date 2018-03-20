@@ -24,8 +24,7 @@ namespace LekkerLokaal.Controllers
         public IActionResult Index(Winkelwagen winkelwagen)
         {
             ViewData["AlleCategorien"] = _categorieRepository.GetAll().ToList();
-            if (winkelwagen.IsLeeg)
-                return View("LegeWinkelwagen");
+            ViewData["IsLeeg"] = winkelwagen.IsLeeg;
             ViewData["Totaal"] = winkelwagen.TotaleWaarde;
             return View(winkelwagen.WinkelwagenLijnen.Select(w => new IndexViewModel(w)).ToList());
         }
