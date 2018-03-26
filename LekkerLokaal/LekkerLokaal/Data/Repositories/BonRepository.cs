@@ -22,11 +22,6 @@ namespace LekkerLokaal.Data.Repositories
             return _bonnen.Include(b => b.Categorie).OrderByDescending(b => b.AantalBesteld).AsNoTracking().ToList();
         }
 
-        public IEnumerable<Bon> GetTop3(IEnumerable<Bon> inputlijst)
-        {
-            return inputlijst.OrderByDescending(b => b.AantalBesteld).Take(3).ToList();
-        }
-
         public IEnumerable<Bon> GetAlles(string zoekKey, IEnumerable<Bon> inputlijst)
         {
             if (zoekKey.Trim().Length != 0)
@@ -112,13 +107,19 @@ namespace LekkerLokaal.Data.Repositories
         public IEnumerable<Bon> GetByLigging(string zoekKey, IEnumerable<Bon> inputlijst)
         {
             string _zoekKey = zoekKey.ToLower();
-            return inputlijst.Where(b => b.Gemeente.ToLower().Contains(_zoekKey)).ToList();
+            _zoekKey = _zoekKey.Replace("-", "");
+            _zoekKey = _zoekKey.Replace("_", "");
+            _zoekKey = VerwijderAccenten(zoekKey);
+            return inputlijst.Where(b => VerwijderAccenten(b.Gemeente.ToLower().Replace("-", "").Replace("_", "")).Contains(_zoekKey)).ToList();
         }
 
         public IEnumerable<Bon> GetByNaam(string zoekKey, IEnumerable<Bon> inputlijst)
         {
             string _zoekKey = zoekKey.ToLower();
-            return inputlijst.Where(b => b.Naam.ToLower().Contains(_zoekKey)).ToList();
+            _zoekKey = _zoekKey.Replace("-", "");
+            _zoekKey = _zoekKey.Replace("_", "");
+            _zoekKey = VerwijderAccenten(zoekKey);
+            return inputlijst.Where(b => VerwijderAccenten(b.Naam.ToLower().Replace("-", "").Replace("_", "")).Contains(_zoekKey)).ToList();
         }
 
         public IEnumerable<Bon> GetByPrijs(int zoekKey, IEnumerable<Bon> inputlijst)
@@ -144,7 +145,27 @@ namespace LekkerLokaal.Data.Repositories
 
         public Bon GetByBonId(int bonId)
         {
-            return _bonnen.Include(b => b.Categorie).SingleOrDefault(b => b.BonId == bonId);
+            return _bonnen.Include(b => b.Categorie).Include(b=>b.Handelaar).SingleOrDefault(b => b.BonId == bonId);
+        }
+
+        public IEnumerable<Bon> GetTop30(IEnumerable<Bon> inputlijst)
+        {
+            return inputlijst.OrderByDescending(b => b.AantalBesteld).Take(30).ToList();
+        }
+
+        public IEnumerable<Bon> GetBonnenAanbiedingSlider(IEnumerable<Bon> inputlijst)
+        {
+            return inputlijst.Where(b => b.Aanbieding == Aanbieding.Slider).ToList();
+        }
+
+        public IEnumerable<Bon> GetBonnenAanbiedingStandaard(IEnumerable<Bon> inputlijst)
+        {
+            return inputlijst.Where(b => b.Aanbieding == Aanbieding.Standaard).ToList();
+        }
+
+        public IEnumerable<Bon> GetBonnenAanbiedingStandaardEnSlider(IEnumerable<Bon> inputlijst)
+        {
+            return GetBonnenAanbiedingSlider(inputlijst).Union(GetBonnenAanbiedingStandaard(inputlijst)).ToList();
         }
     }
 }

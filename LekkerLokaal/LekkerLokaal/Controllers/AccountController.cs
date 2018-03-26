@@ -297,15 +297,11 @@ namespace LekkerLokaal.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-
-                MailMessage message = new MailMessage();
+                var message = new MailMessage();
                 message.From = new MailAddress("lekkerlokaalst@gmail.com");
                 message.To.Add("lekkerlokaalst@gmail.com");
                 message.Subject = "Een nieuwe handelaar heeft zich zopas ingeschreven via het handelaarsformulier";
-                message.Body =
-
-                    //Text = "Dit is een test."
-                    String.Format("Naam handelszaak: {0}\n" +
+                message.Body = String.Format("Naam handelszaak: {0}\n" +
                                         "E-mailadres: {1}\n" +
                                         "Straat: {2}\n" +
                                         "Huisnummer: {3}\n" +
@@ -314,9 +310,7 @@ namespace LekkerLokaal.Controllers
                                         "BTW Nummer: {6}\n" +
                                         "Categorie: {7}\n" +
                                         "Beschrijving: {8}\n",
-                                        model.NaamHandelszaak, model.Email, model.Straat, model.Huisnummer, model.Postcode, model.Plaatsnaam, model.BTWNummer, model.Categorie, model.Beschrijving)
-                ;
-
+                                        model.NaamHandelszaak, model.Email, model.Straat, model.Huisnummer, model.Postcode, model.Plaatsnaam, model.BTWNummer, model.Categorie, model.Beschrijving);
                 var filePath = @"wwwroot/images/temp/logo.jpg";
                 var fileStream = new FileStream(filePath, FileMode.Create);
                 await model.Logo.CopyToAsync(fileStream);

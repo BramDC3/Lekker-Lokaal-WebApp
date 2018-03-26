@@ -10,6 +10,6 @@ namespace LekkerLokaal.Models.Domain
     {
         Geen,
         Standaard,
-        Speciaal
+        Slider
     }
 }

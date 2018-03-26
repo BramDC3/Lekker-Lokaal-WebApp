@@ -12,7 +12,7 @@ namespace LekkerLokaal.Models.Domain
         public string Emailadres { get; set; }
         public string Beschrijving { get; set; }
         public string BTW_Nummer { get; set; }
-        public ICollection<Bon> Cadeaubonnen { get; }
+        public ICollection<Bon> Cadeaubonnen { get; private set; }
         public string Afbeelding { get; set; }
         public string Straat { get; set; }
         public string Huisnummer { get; set; }

@@ -8,9 +8,9 @@ namespace LekkerLokaal.Models.HomeViewModels
 {
     public class ZoekViewModel
     {
-
         public string Naam { get; }
         public decimal MinPrijs { get; }
+        public decimal MaxPrijs { get; }
         public string Beschrijving { get; }
         public string Gemeente { get; }
         public string CategorieIcon { get; }
@@ -27,6 +27,7 @@ namespace LekkerLokaal.Models.HomeViewModels
         {
             Naam = bon.Naam;
             MinPrijs = bon.MinPrijs;
+            MaxPrijs = bon.MaxPrijs;
             Beschrijving = bon.Beschrijving;
             AantalBesteld = bon.AantalBesteld;
             GetThumbPath = bon.GetThumbPath();
@@ -35,6 +36,5 @@ namespace LekkerLokaal.Models.HomeViewModels
             CategorieIcon = bon.Categorie.Icon;
             CategorieNaam = bon.Categorie.Naam;
         }
-
     }
 }

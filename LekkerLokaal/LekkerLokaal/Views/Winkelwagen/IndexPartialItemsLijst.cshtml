@@ -1,0 +1,77 @@
+﻿@model LekkerLokaal.Models.WinkelwagenViewModels.IndexViewModel
+
+<div class="cart-wrapper">
+    @if (Model.WinkelwagenLijst.Count() == 0)
+    {
+        <div class="col-xs-12 text-center">
+            <h4>Uw winkelwagen is momenteel leeg!</h4>
+            <img src="~/images/icons/winkelmand/emptycart.png">
+        </div>
+    }
+    else
+    {
+        <h3 class="h-title mb-30 t-uppercase">Uw winkelwagen</h3>
+        <table id="cart_list" class="cart-list mb-30">
+            <thead class="panel t-uppercase">
+                <tr>
+                    <th>Cadeaubon</th>
+                    <th class="text-center">Waarde</th>
+                    <th class="text-center">Hoeveelheid</th>
+                    <th class="text-center">Subtotaal</th>
+                    <th class="text-center">Verwijder</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.WinkelwagenLijst)
+                {
+                    <tr class="panel alert">
+                        <td>
+                            <div class="media-left is-hidden-sm-down">
+                                <figure class="product-thumb">
+                                    <img src="@line.GetThumbPath" alt="product">
+                                </figure>
+                            </div>
+                            <div class="media-body valign-middle">
+                                <a asp-controller="Home" asp-action="Detail" asp-route-id="@line.BonId"><h6 class="title mb-15 t-uppercase">@($"{line.Bon}")</h6></a>
+                                <div class="type font-12"><a asp-controller="Home" asp-action="Zoeken" asp-route-ZoekSoort="Categorie" asp-route-ZoekKey="@line.Categorie">CATEGORIE: @($"{line.Categorie}")</a></div>
+                            </div>
+                        </td>
+                        <td class="text-center">@($"€ {line.Prijs:N2}")</td>
+                        <td class="text-center">
+                            <a onclick="winkelmandAantalVerlagen(@(line.BonId), @(line.Prijs.ToString().Replace(",",".")))">
+                                <i class="fas fa-minus"></i>
+                            </a>
+                            <input class="quantity-label text-center" type="number" value="@($"{line.Aantal}")">
+                            <a onclick="winkelmandAantalVerhogen(@(line.BonId), @(line.Prijs.ToString().Replace(",",".")))">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <div class="sub-total">@($"€ {line.SubTotaal:N2}")</div>
+                        </td>
+                        <td class="text-center">
+                            <a onclick="winkelmandItemVerwijderen(@(line.BonId), @(line.Prijs.ToString().Replace(",",".")))">
+                                <i class="fas fa-trash-alt font-26"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="cart-price">
+            <ul class="panel mb-20">
+                <li>
+                    <div class="item-name">
+                        <strong class="t-uppercase">Totaal</strong>
+                    </div>
+                    <div class="price">
+                        <span>@($"€ {Model.Totaal:N2}")</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="t-right">
+                <a href="checkout_method.html" class="btn btn-rounded btn-lg">BESTELLEN</a>
+            </div>
+        </div>
+    }
+</div>

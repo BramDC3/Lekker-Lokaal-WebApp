@@ -1,38 +1,22 @@
 ﻿using LekkerLokaal.Models.Domain;
+using LekkerLokaal.Models.WinkelwagenViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LekkerLokaal.Models.CartViewModels
+namespace LekkerLokaal.Models.WinkelwagenViewModels
 {
     public class IndexViewModel
     {
-        [HiddenInput]
-        public int BonId { get; }
+        public IEnumerable<IndexBonnenLijstViewModel> WinkelwagenLijst { get; }
+        public decimal Totaal { get; }
 
-        public int Aantal { get; }
-
-        public string Bon { get; }
-
-        public String GetThumbPath { get; }
-
-        public string Categorie { get; }
-
-        public decimal Prijs { get; }
-
-        public decimal SubTotaal { get; }
-
-        public IndexViewModel(WinkelwagenLijn winkelwagenLijn)
+        public IndexViewModel(IEnumerable<WinkelwagenLijn> winkelWagenLijst, decimal totaal)
         {
-            BonId = winkelwagenLijn.Bon.BonId;
-            Aantal = winkelwagenLijn.Aantal;
-            Bon = winkelwagenLijn.Bon.Naam;
-            Categorie = winkelwagenLijn.Bon.Categorie.Naam;
-            Prijs = winkelwagenLijn.Prijs;
-            SubTotaal = winkelwagenLijn.Totaal;
-            GetThumbPath = winkelwagenLijn.Bon.GetThumbPath();
+            WinkelwagenLijst = winkelWagenLijst.Select(wl => new IndexBonnenLijstViewModel(wl)).ToList();
+            Totaal = totaal;
         }
     }
 

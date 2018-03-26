@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LekkerLokaal.Models.HomeViewModels
 {
-    public class IndexAlleBonnenLijstModel
+    public class IndexTop30BonnenLijstModel
     {
 
         
@@ -21,11 +21,11 @@ namespace LekkerLokaal.Models.HomeViewModels
         public string CategorieIcon { get; }
         public string CategorieNaam { get; }
 
-        public IndexAlleBonnenLijstModel()
+        public IndexTop30BonnenLijstModel()
         {
         }
 
-        public IndexAlleBonnenLijstModel(Bon bon)
+        public IndexTop30BonnenLijstModel(Bon bon)
         {
             Naam = bon.Naam;
             MinPrijs = bon.MinPrijs;

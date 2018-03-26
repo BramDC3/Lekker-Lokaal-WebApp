@@ -8,7 +8,6 @@ namespace LekkerLokaal.Models.HomeViewModels
 {
     public class IndexCategorieMetAantalLijstModel
     {
-
         public string CategorieNaam { get; }
         public int Aantal { get; }
         public string Icon { get; }
@@ -23,6 +22,5 @@ namespace LekkerLokaal.Models.HomeViewModels
             Aantal = categorieMetAantal.Value;
             Icon = categorieMetAantal.Key.Icon;
         }
-
     }
 }

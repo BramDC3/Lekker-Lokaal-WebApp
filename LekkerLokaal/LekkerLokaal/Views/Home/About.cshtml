@@ -1,17 +1,14 @@
-﻿@{
+﻿@model LekkerLokaal.Models.HomeViewModels.VerstuurEmailViewModel
+
+@{
     ViewData["Title"] = "Over ons";
     ViewData["Navbar"] = "Over";
 }
 
-<!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->
 <main id="mainContent" class="main-content">
-    <!-- Page Container -->
     <div class="page-container ptb-60">
         <div class="container">
-
-            <!-- Contact Us Area -->
             <div class="contact-area contact-area-v1 panel">
-
                 <div class="ptb-30 prl-30">
                     <div class="row row-tb-20">
                         <div class="col-xs-12 col-md-6">
@@ -64,22 +61,26 @@
                         <div class="col-xs-12 col-md-6">
                             <div class="contact-area-col contact-form">
                                 <h3 class="t-uppercase h-title mb-20">Neem contact met ons op</h3>
-                                <form action="#" method="post">
+                                <form asp-controller="Home" asp-action="VerstuurEmail" method="post">
                                     <div class="form-group">
-                                        <label>Naam</label>
-                                        <input type="text" class="form-control" required="required">
+                                        <label asp-for="Naam"></label>
+                                        <input type="text" class="form-control" required="required" asp-for="Naam">
+                                        <span asp-validation-for="Naam" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label>E-mailadres</label>
-                                        <input type="text" class="form-control" required="required">
+                                        <label asp-for="Email"></label>
+                                        <input type="text" class="form-control" required="required" asp-for="Email">
+                                        <span asp-validation-for="Email" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Onderwerp</label>
-                                        <input type="text" class="form-control" required="required">
+                                        <input type="text" class="form-control" required="required" asp-for="Onderwerp">
+                                        <span asp-validation-for="Onderwerp" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Bericht</label>
-                                        <textarea rows="5" class="form-control" required="required"></textarea>
+                                        <textarea rows="5" class="form-control" required="required" asp-for="Bericht"></textarea>
+                                        <span asp-validation-for="Bericht" class="text-danger"></span>
                                     </div>
                                     <button class="btn">
                                         Verstuur bericht
@@ -90,12 +91,6 @@
                     </div>
                 </div>
             </div>
-            <!-- End Contact Us Area -->
-
         </div>
     </div>
-    <!-- End Page Container -->
-
-
 </main>
-<!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->

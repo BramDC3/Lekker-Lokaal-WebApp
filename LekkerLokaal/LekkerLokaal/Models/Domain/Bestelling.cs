@@ -21,21 +21,24 @@ namespace LekkerLokaal.Models.Domain
         public Bestelling(Winkelwagen winkelwagen) : this()
         {
             if (!winkelwagen.WinkelwagenLijnen.Any())
-                throw new InvalidOperationException("Er kan geen bestelling geplaatst worden omdat het winkelwagentje leeg is");
+                throw new InvalidOperationException("Gelieve één of meerdere cadeaubonnen toe te voegen aan uw winkelwagen alvorens u een bestelling plaatst.");
 
             foreach (WinkelwagenLijn lijn in winkelwagen.WinkelwagenLijnen)
             {
-                BestelLijnen.Add(new BestelLijn
+                for (int i = 1; i <= lijn.Aantal; i++)
                 {
-                    Bon = lijn.Bon,
-                    //to be implemented
-                    Prijs = lijn.Bon.MinPrijs,
-                    Aantal = lijn.Aantal
-                });
+                    BestelLijnen.Add(new BestelLijn
+                    {
+                        Bon = lijn.Bon,
+                        Aantal = 1,
+                        Prijs = lijn.Prijs,
+                        BestellingId = BestellingId,
+                        Geldigheid = Geldigheid.Geldig
+                    });
+                }
             }
         }
 
         public bool HeeftBesteld(Bon bon) => BestelLijnen.Any(b => b.Bon.Equals(bon));
-
     }
 }

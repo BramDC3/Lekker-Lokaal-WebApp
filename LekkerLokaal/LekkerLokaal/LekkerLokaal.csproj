@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Winkelwagen\WinkelWagenLijstPartial.cshtml" />
     <Content Remove="wwwroot\vendors\PrettierSelect\css\easydropdown.flat.css" />
     <Content Remove="wwwroot\vendors\PrettierSelect\css\easydropdown.metro.css" />
   </ItemGroup>
@@ -51,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Mappers\" />
     <Folder Include="wwwroot\images\temp\" />
     <Folder Include="wwwroot\pdf\" />
   </ItemGroup>

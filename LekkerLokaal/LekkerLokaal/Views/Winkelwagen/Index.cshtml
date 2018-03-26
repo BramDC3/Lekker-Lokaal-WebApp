@@ -1,6 +1,4 @@
-﻿@model IEnumerable<LekkerLokaal.Models.CartViewModels.IndexViewModel>
-
-@{
+﻿@{
     ViewData["Title"] = "Winkelwagen";
 }
 
@@ -53,7 +51,6 @@
                             </tbody>
                         </table>
                         <div class="cart-price">
-
                             <ul class="panel mb-20">
 
                                 <li>
@@ -70,8 +67,62 @@
                             </div>
                         </div>
                     </div>
+                <div class="container" id="winkelwagen-list-partial">
+                    @await Html.PartialAsync("IndexPartialItemsLijst")
                 </div>
             </div>
         </div>
     </div>
+</main>
+    <script>
+        function winkelmandAantalVerhogen(id, prijs) {
+            var plusId = id;
+            var plusPrijs = prijs;
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Plus", "Winkelwagen")',
+              data: { Id: plusId, Prijs: plusPrijs }
+                }).done(function (result) {
+                    $("#winkelwagen-list-partial").html(result);
+                    updateWinkelMandCount();
+                });
+        };
+        function winkelmandAantalVerlagen(id, prijs) {
+            var plusId = id;
+            var plusPrijs = prijs;
+
+            $.ajax({
+              type: "POST",
+              url: '@Url.Action("Min", "Winkelwagen")',
+              data: { Id: plusId, Prijs: plusPrijs }
+            }).done(function (result) {
+                $("#winkelwagen-list-partial").html(result);
+                updateWinkelMandCount();
+            });
+        };
+        function winkelmandItemVerwijderen(id, prijs) {
+            if (confirm("Bent u zeker dat u deze cadeaubon(nen) wilt verwijderen uit uw winkelwagen?") == true) {
+                var plusId = id;
+                var plusPrijs = prijs;
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Remove", "Winkelwagen")',
+                    data: { Id: plusId, Prijs: plusPrijs }
+                }).done(function (result) {
+                    $("#winkelwagen-list-partial").html(result);
+                    updateWinkelMandCount();
+                });
+            }
+        };
+        function updateWinkelMandCount() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateWinkelwagenCount", "Home")'
+                }).done(function (result) {
+                    $("#layout-winkelwagen-count").html(result);
+             });
+        }
+    </script>
 </main>

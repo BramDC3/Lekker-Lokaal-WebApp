@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 
 namespace LekkerLokaal.Models.HomeViewModels
 {
-    public class IndexTop3BonnenLijstModel
+    public class IndexAanbiedingSliderLijstModel
     {
         public string GetThumbPath { get; }
         public int AantalBesteld { get; }
         public string Naam { get; }
         public int BonId { get; }
 
-        public IndexTop3BonnenLijstModel()
+        public IndexAanbiedingSliderLijstModel()
         {
         }
 
-        public IndexTop3BonnenLijstModel(Bon bon)
+        public IndexAanbiedingSliderLijstModel(Bon bon)
         {
             Naam = bon.Naam;
             AantalBesteld = bon.AantalBesteld;
             GetThumbPath = bon.GetThumbPath();
             BonId = bon.BonId;
         }
-
     }
 }

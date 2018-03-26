@@ -41,7 +41,6 @@ namespace LekkerLokaal.Models.Domain
         {
             Naam = name;
             Icon = icon;
-
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@model LekkerLokaal.Models.HomeViewModels.DetailViewModel;
 
 @{
+
     ViewData["Title"] = @Model.Naam;
     if (ViewData["Navbar"] == null || (string)ViewData["Navbar"] == "")
     {
@@ -8,9 +9,7 @@
     }
 }
 
-<!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->
 <main id="mainContent" class="main-content">
-    <!-- Page Container -->
     <div class="page-container ptb-60">
         <div class="container">
             <div class="row row-rl-10 row-tb-20">
@@ -36,14 +35,14 @@
                                             {
 
                                                 <li>
-                                                    <img src="~/@path">
+                                                    <img class="thumb-detail" src="~/@path">
                                                 </li>
                                             }
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="deal-body p-20">
-                                    <h3 class="mb-10">De cadeau voor wijnkenners en enthousiasten!</h3>
+                                    <h3 class="mb-10">@Model.Naam</h3>
                                     <div class="rating mb-10">
                                     </div>
 
@@ -52,89 +51,111 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="page-sidebar col-md-4 col-sm-5 col-xs-12">
-                    <!-- Blog Sidebar -->
                     <aside class="sidebar blog-sidebar">
                         <div class="row row-tb-10">
                             <div class="col-xs-12">
                                 <div class="widget single-deal-widget panel ptb-30 prl-20">
                                     <div class="widget-body text-center">
                                         <h2 class="mb-20 h3">
-                                            @Model.Naam
+                                            @Model.HandelaarNaam
                                         </h2>
                                         <ul class="deal-meta list-inline mb-10 color-mid">
-                                            <li class="color-muted"><i class="ico fa fa-map-marker mr-5"></i>Aalst</li>
+                                            <li class="color-muted"><i class="ico fab fa-periscope mr-5"></i>@Model.Gemeente</li>
                                             <li class="color-muted"><i class="ico lnr lnr-users mr-5"></i>@Model.AantalBesteld besteld</li>
                                         </ul>
                                         <p class="color-muted">
-                                            Met deze bon kan je bij wijnproeverij BraLenBre genieten van een gezellige avond. Je zal meer uitleg krijgen over de verschillende soorten wijnen en van elke soort mogen proeven, allen vergezeld met een passend hapje. Eens de sessie over is kan met de bon wijn aangekocht worden.
+                                            @Model.HandelaarBeschrijving
                                         </p>
-                                        <div class="price mb-20">
-                                            <h2 class="price"> <i class="fa fa-credit-card-alt"></i> Vanaf &euro;@Model.MinPrijs</h2>
+                                        <div class="DynamicAddCartRegionCart height-150px" style="display: none;" id="@(Model.BonId.ToString() + "card")">
+                                            <form name="WinkelmandjeAdder" onsubmit="return VoegToeAanWinkelmand(@Model.BonId);">
+                                                <div class="PopupAddToCart-line">
+                                                    <div class="col-xs-4 no-padding">
+                                                        <label class="float-left ">Prijs:</label>
+                                                    </div>
+                                                    <div class="col-xs-offset-1 col-xs-7 no-padding">
+                                                        <input id="@(Model.BonId.ToString() + "PrijsField")" class="form-control winkelmand-register-enter" type="number" step="0.01" min="@(Model.MinPrijs.ToString().Replace(",","."))" max="@(Model.MaxPrijs.ToString().Replace(",","."))" value="@(Model.MinPrijs.ToString().Replace(",","."))">
+                                                    </div>
+                                                </div>
+                                                <div class="PopupAddToCart-line">
+                                                    <div class="col-xs-4 no-padding">
+                                                        <label class="float-left">Aantal:</label>
+                                                    </div>
+                                                    <div class="col-xs-offset-1 col-xs-7 no-padding">
+                                                        <input id="@(Model.BonId.ToString() + "AantalField")" class="form-control winkelmand-register-enter" type="number" min="1" max="100" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 showcode no-padding">
+                                                    <a onclick="DynamicAddCartRegion(@Model.BonId);" class="btn btn-sm btn-block">Terug</a>
+                                                </div>
+                                                <div class="col-xs-offset-1 col-xs-7 showcode no-padding">
+                                                    <input name="Submit" type="submit" value="Bevestig" class="btn btn-sm btn-block" id="@(Model.BonId.ToString() + "BevestigKnop")"/>
+                                                </div>
+                                            </form>
                                         </div>
-                                            <div class="buy-now mb-40">
-                                                <a asp-controller="Winkelwagen" asp-action="Add" asp-route-id="@Model.BonId" class="btn btn-block btn-lg">
-                                                    <i class="fa fa-shopping-cart font-16 mr-10"></i> In winkelmandje
-                                                </a>
+                                        <div class="DynamicAddCartRegionDefault height-150px" id="@(Model.BonId.ToString() + "default")">
+                                            <p class="color-muted font-12"><i class="fa @Model.CategorieIcon"></i> @Model.CategorieNaam</p>
+                                            <div class="price mb-20">
+                                                <h2 class="price"> <i class="fa fa-credit-card-alt"></i> Vanaf € @Model.MinPrijs</h2>
                                             </div>
-                                        <ul class="list-inline social-icons social-icons--colored t-center">
-                                            <li>
-                                                <a href="#"><i class="fab fa-facebook font-34"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-twitter font-34"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-linkedin font-34"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-google-plus font-34"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-pinterest font-34"></i></a>
-                                            </li>
-                                        </ul>
+                                            <a onclick="DynamicAddCartRegion(@Model.BonId);" class="btn btn-block btn-lg">
+                                                <i class="fa fa-shopping-cart font-16 mr-10"></i> In winkelmandje
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12">
-                                <!-- Recent Posts -->
                                 <div class="widget about-seller-widget panel ptb-30 prl-20">
-                                    <h3 class="widget-title h-title text-center">Over @Model.Naam</h3>
+                                    <h3 class="widget-title h-title text-center mb-20">Locatie @Model.Naam</h3>
                                     <div class="widget-body t-center">
-                                        <figure class="mt-20 pb-10">
-                                            <img src="assets/images/brands/store_logo.png" alt="">
-                                        </figure>
-                                        <div class="store-about mb-20">
-                                            <div class="rating mb-10">
-                                                <span class="rating-stars rate-allow" data-rating="3">
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o star-active"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </span>
-                                                <span class="rating-reviews">
-                                                    ( <span class="rating-count">205</span> google recensies )
-                                                </span>
-                                            </div>
-                                            <p class="mb-15">Gelegen in de Lange Zoutstraat vlakbij de grote markt van Aalst is wijnproeverij BraLenBre al jarenlang de plaats waar wijnkenners en enthousiasten heen gaan.</p>
-                                        </div>
+                                        <div style="height: 300px;" id="contact-map"></div>
                                     </div>
                                 </div>
-                                <!-- End Recent Posts -->
                             </div>
                         </div>
                     </aside>
-                    <!-- End Blog Sidebar -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Page Container -->
+    <script>
+        function initMap() {
+            var positie = "@Model.FormatedAdress";
+            var map = new google.maps.Map(document.getElementById('contact-map'), {
+                zoom: 15
+            });
+
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({
+                'address': positie
+            },
+                function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var locatiecords = { lat: results[0].geometry.location.lat() + 0.0014, lng: (results[0].geometry.location.lng()) };
+
+                        marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map
+                        });
+                        map.setCenter(locatiecords);
+                        var contentString = '<div class="col-xs-12"> <p class="font-18"> @Model.Naam </p> <p class="font-14"> @Model.FormatedAdress </p> </div>';
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        marker.addListener('click', function () {
+                            infowindow.open(map, marker);
+                        });
+                    }
+                });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ0Qfa3jPba5djMOOwScpRT_EHqxDXHBc&callback=initMap">
+    </script>
 </main>
-<!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->

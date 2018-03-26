@@ -12,7 +12,7 @@ namespace LekkerLokaal.Models.Domain
     public class Bon
     {
         [JsonProperty]
-        public int BonId { get; private set; }
+        public int BonId { get; set; }
         private string _naam;
         public string Naam
         {
